@@ -41,6 +41,10 @@ $('.deleteAlbum').click(function() {
     });
 });
 
+window.addEventListener('pageshow', function(e) {
+    if (e.persisted) window.location.reload();
+});
+
 $('.createAlbum').click(function() {
     var albumId = $(this).data('album-id');
     $.ajax({
