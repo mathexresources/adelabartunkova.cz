@@ -14,6 +14,9 @@ if (!$id) {
 }
 $album = new Album($id, $db);
 $photosPath = $_SERVER['DOCUMENT_ROOT'] . $album->getAlbumPath();
+if (!is_dir($photosPath)) {
+    mkdir($photosPath, 0755, true);
+}
 $photos = array_diff(scandir($photosPath), ['.', '..']);
 $photosPlaceholders = max(0, 12 - count($photos));
 ?>
