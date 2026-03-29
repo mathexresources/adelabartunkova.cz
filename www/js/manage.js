@@ -1,3 +1,21 @@
+$('.destroyAlbum').click(function() {
+    var albumId = $(this).data('album-id');
+    var albumName = $(this).data('album-name');
+    if (!confirm('Trvale smazat album "' + albumName + '"? Tato akce je nevratná.')) return;
+    $.ajax({
+        url: '/api/album.php',
+        type: 'POST',
+        data: {action: 'destroy', albumId: albumId},
+        success: function(result) {
+            if (result.success) {
+                window.location.reload();
+            } else {
+                alert(result.message);
+            }
+        }
+    });
+});
+
 $('.deleteAlbum').click(function() {
     var albumId = $(this).data('album-id');
     $.ajax({

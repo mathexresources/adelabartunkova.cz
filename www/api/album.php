@@ -15,29 +15,29 @@ if (!isset($_POST['action'], $_POST['albumId'])) {
 
 if ($_POST['action'] === 'delete') {
     $id = $_POST['albumId'];
-    $album = new Album($id, $db);
     if (!is_numeric($id)) {
         echo json_encode(['success' => false, 'message' => 'Invalid album ID.']);
         exit();
     }
-
+    $album = new Album($id, $db);
     $album->switchDeleted();
+    echo json_encode(['success' => true, 'message' => 'Album visibility toggled.', 'albumId' => $id]);
+    exit();
+}
 
-    if (!$stmt) {
-        echo json_encode(['success' => false, 'message' => 'Database error: ' . $db->error]);
+if ($_POST['action'] === 'destroy') {
+    $id = $_POST['albumId'];
+    if (!is_numeric($id)) {
+        echo json_encode(['success' => false, 'message' => 'Invalid album ID.']);
         exit();
     }
-
-    $stmt->bind_param('i', $id);
-    $success = $stmt->execute();
-
-    if ($success) {
-        echo json_encode(['success' => true, 'message' => 'Album deleted successfully.', 'albumId' => $id]);
-    } else {
-        echo json_encode(['success' => false, 'message' => 'Failed to delete album.']);
+    $album = new Album($id, $db);
+    if ($album->getCreatedById() != $_SESSION['user']['id'] && $_SESSION['user']['admin'] != 10) {
+        echo json_encode(['success' => false, 'message' => 'Permission denied.']);
+        exit();
     }
-
-    $stmt->close();
+    $album->destroy();
+    echo json_encode(['success' => true, 'message' => 'Album permanently deleted.']);
     exit();
 }
 

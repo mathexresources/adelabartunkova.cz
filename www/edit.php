@@ -67,7 +67,7 @@ $photosPlaceholders = max(0, 12 - count($photos));
 
 
         <div class="col-6">
-            <input type="file" id="fileInput" multiple accept="image/*" hidden>
+            <input type="file" id="fileInput" multiple hidden>
             <div id="dropArea"
                  class="position-relative overflow-hidden row row-cols-3 row-cols-md-4 g-2 border border-dark border-2 border-striped p-2 rounded rounded-3"
                  style="border-style: dashed !important; cursor: pointer; min-height: 70vh; overflow-y: auto;">
@@ -146,7 +146,7 @@ $photosPlaceholders = max(0, 12 - count($photos));
             e.preventDefault();
             dropArea.classList.remove('border-primary');
 
-            let validFiles = [...e.dataTransfer.files].filter(file => file.type.startsWith('image/'));
+            let validFiles = [...e.dataTransfer.files];
             if (validFiles.length === 0) {
                 dropArea.style.animation = 'shake 0.3s';
                 setTimeout(() => dropArea.style.animation = '', 300);
@@ -162,7 +162,6 @@ $photosPlaceholders = max(0, 12 - count($photos));
 
             let formData = new FormData();
             for (let file of files) {
-                if (!file.type.startsWith('image/')) continue;
                 formData.append('images[]', file);
             }
 

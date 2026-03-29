@@ -207,4 +207,16 @@ class Album
         $this->save();
     }
 
+    public function destroy(): void
+    {
+        $dir = $_SERVER['DOCUMENT_ROOT'] . $this->albumPath;
+        if (is_dir($dir)) {
+            foreach (array_diff(scandir($dir), ['.', '..']) as $file) {
+                unlink($dir . '/' . $file);
+            }
+            rmdir($dir);
+        }
+        $this->db->query("DELETE FROM albums WHERE id = $this->id");
+    }
+
 }

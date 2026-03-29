@@ -65,6 +65,11 @@ $albums = $db->query('SELECT id FROM albums ORDER BY albums.id DESC')->fetch_all
                                 <i class="fa fa-eye-slash"></i>
                             </button>
                         <?php endif; ?>
+                        <?php if ($album->getCreatedById() == $_SESSION['user']['id'] || $_SESSION['user']['admin'] == 10): ?>
+                            <button data-album-id="<?=$album->getId()?>" data-album-name="<?=htmlspecialchars($album->getName())?>" class="btn btn-danger destroyAlbum float-end mx-1">
+                                <i class="fa fa-trash"></i>
+                            </button>
+                        <?php endif; ?>
                     </div>
                     <div class="card-footer text-body-secondary">
                         <small class="text-muted"><?= ucfirst($album->getCreatedByName()) ?>
