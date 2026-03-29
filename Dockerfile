@@ -20,4 +20,8 @@ RUN composer install --no-dev --optimize-autoloader --no-scripts
 
 COPY . .
 
-RUN chown -R www-data:www-data www/img
+COPY docker/php/entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+
+ENTRYPOINT ["/entrypoint.sh"]
+CMD ["php-fpm"]
