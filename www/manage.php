@@ -81,4 +81,20 @@ $albums = $db->query('SELECT id FROM albums ORDER BY albums.id DESC')->fetch_all
     </div>
 </div>
 
-
+<div class="modal fade" id="deleteAlbumModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Smazat album</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                Opravdu chceš trvale smazat album <strong id="deleteAlbumName"></strong>? Tato akce je nevratná.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Zrušit</button>
+                <button type="button" class="btn btn-danger" id="deleteAlbumConfirm">Smazat</button>
+            </div>
+        </div>
+    </div>
+</div>

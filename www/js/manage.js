@@ -1,11 +1,18 @@
+var pendingDeleteId = null;
+
 $('.destroyAlbum').click(function() {
-    var albumId = $(this).data('album-id');
-    var albumName = $(this).data('album-name');
-    if (!confirm('Trvale smazat album "' + albumName + '"? Tato akce je nevratná.')) return;
+    pendingDeleteId = $(this).data('album-id');
+    $('#deleteAlbumName').text($(this).data('album-name'));
+    new bootstrap.Modal(document.getElementById('deleteAlbumModal')).show();
+});
+
+$('#deleteAlbumConfirm').click(function() {
+    if (!pendingDeleteId) return;
+    $('#deleteAlbumModal').modal('hide');
     $.ajax({
         url: '/api/album.php',
         type: 'POST',
-        data: {action: 'destroy', albumId: albumId},
+        data: {action: 'destroy', albumId: pendingDeleteId},
         success: function(result) {
             if (result.success) {
                 window.location.reload();
